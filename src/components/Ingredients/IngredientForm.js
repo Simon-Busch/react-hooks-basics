@@ -21,8 +21,16 @@ const IngredientForm = React.memo(props => {
               type="text" 
               id="title" 
               value={inputState[0].title}
-              onChange={(event) => inputState[1].title()} 
-                //act as a function, so () is needed after title
+              onChange={(event) => {
+                const newTitle = event.target.value;
+                inputState[1]((prevInputState) => ({
+                  title: newTitle,
+                  amount: prevInputState.amount
+                }))}
+              } 
+                //act as a function, so ()
+                //we want to update the second element of the array
+                // which will be our new state at the end
               />
           </div>
           <div className="form-control">
@@ -30,7 +38,17 @@ const IngredientForm = React.memo(props => {
             <input 
               type="number" 
               id="amount" 
-              value={inputState[0].amount} />
+              value={inputState[0].amount} 
+              onChange={(event) => {
+                const newAmount = event.target.value
+                inputState[1]((prevInputState) => ({
+                  amount: newAmount,
+                  title: prevInputState.title
+//important to keep the title here, because otherwise we would overwrite the state with only the amount value 
+//and hence delete the title
+                }))}
+              } 
+              />
           </div>
           <div className="ingredient-form__actions">
             <button type="submit">Add Ingredient</button>
