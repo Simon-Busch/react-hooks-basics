@@ -4,11 +4,16 @@ import Card from '../UI/Card';
 import './IngredientForm.css';
 
 const IngredientForm = React.memo(props => {
-  const inputState = useState({title:'',amount:''});
+  // const [inputState, setInputState] = useState({title:'',amount:''});
+  const [enteredTitle, setEnteredTitle] = useState('');
+  const [enteredAmount, setEnteredAmount] = useState('');
 
   const submitHandler = event => {
     event.preventDefault();
-    // ...
+    props.onAddIngredient({
+      title: enteredTitle,
+      amount: enteredAmount
+    });
   };
 
   return (
@@ -20,17 +25,8 @@ const IngredientForm = React.memo(props => {
             <input 
               type="text" 
               id="title" 
-              value={inputState[0].title}
-              onChange={(event) => {
-                const newTitle = event.target.value;
-                inputState[1]((prevInputState) => ({
-                  title: newTitle,
-                  amount: prevInputState.amount
-                }))}
-              } 
-                //act as a function, so ()
-                //we want to update the second element of the array
-                // which will be our new state at the end
+              value={enteredTitle}
+              onChange={(event) => {setEnteredTitle(event.target.value)}}
               />
           </div>
           <div className="form-control">
@@ -38,16 +34,8 @@ const IngredientForm = React.memo(props => {
             <input 
               type="number" 
               id="amount" 
-              value={inputState[0].amount} 
-              onChange={(event) => {
-                const newAmount = event.target.value
-                inputState[1]((prevInputState) => ({
-                  amount: newAmount,
-                  title: prevInputState.title
-//important to keep the title here, because otherwise we would overwrite the state with only the amount value 
-//and hence delete the title
-                }))}
-              } 
+              value={enteredAmount } 
+              onChange={(event) => {setEnteredAmount(event.target.value)}} 
               />
           </div>
           <div className="ingredient-form__actions">
