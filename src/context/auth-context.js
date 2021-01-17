@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Auth from '../components/Auth';
+// import Auth from '../components/Auth';
 
 export const AuthContext = React.createContext ({
   isAuth:false,
